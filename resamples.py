@@ -1,4 +1,5 @@
 def mc_samples(df,n,reps,replace = False,random_state = 8675309):
+    import pandas as pd
     from copy import copy
     cols = copy(df.columns)
     cols = cols.insert(0,'rep')
