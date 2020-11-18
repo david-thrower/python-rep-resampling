@@ -17,13 +17,13 @@ and per 4 cores you have. In no case would it make sense to use this to create a
 df: Any Pandas DataFrame object WITH NAMED COLUMNS If the columns in your
 DataFrame are not named, you will get:
 "TypeError: assign() keywords must be strings". To fix this, name your columns:
-df_name.columns = ['column_1_name',column_2_name ... column_n_name]
-**n:** int: number of observations drawn per replicate
-**reps:** int: Number of replicates
+df_name.columns = ['column_1_name',column_2_name ... column_n_name] &nbsp;
+**n:** int: number of observations drawn per replicate &nbsp;
+**reps:** int: Number of replicates &nbsp;
 **replace:** Boolean: Whether a row that is selected can be selected again. If you are
 creating replicates that are larger than the original sample size, then this
-must be set to True.
-**random_state:** The seed for the random number generator. This is used to make results reproducible by uniformity in the psuedo quasi random numbers selected in sampling.
+must be set to True. &nbsp;
+**random_state:** The seed for the random number generator. This is used to make results reproducible by uniformity in the psuedo quasi random numbers selected in sampling.&nbsp;
 
 **Returns:** pandas.core.groupby.generic.DataFrameGroupBy (grouped by replicate 'rep')
 
@@ -38,13 +38,14 @@ You can plot a density plot of the sample distribution by calling resampled_df_n
 df: Any Pandas DataFrame object WITH NAMED COLUMNS or any  If the columns in your
 DataFrame are not named, you will get:
 "TypeError: assign() keywords must be strings". To fix this, name your columns:
-df_name.columns = ['column_1_name',column_2_name ... column_n_name]
-**n:** int: number of observations drawn per replicate
-**reps:** int: Number of replicates
+df_name.columns = ['column_1_name',column_2_name ... column_n_name] &nbsp;
+**n:** int: number of observations drawn per replicate &nbsp;
+**reps:** int: Number of replicates &nbsp;
 **replace:** Boolean: Whether a row that is selected can be selected again. If you are
 creating replicates that are larger than the original sample size, then this
-must be set to True.
-**random_state:** The seed for the random number generator. This is used to make results reproducible by uniformity in the psuedo quasi random numbers selected in sampling.
+must be set to True. &nbsp;
+**random_state:** The seed for the random number generator. This is used to make results reproducible by uniformity in the psuedo quasi random numbers selected in sampling.&nbsp;
+chunksize = The number of records that will be run at a time in each parallel operation &nbsp;
 
 **Returns:** dask.dataframe.groupby.DataFrameGroupBy (grouped by replicate 'rep')
 
@@ -57,20 +58,20 @@ you are creating more around 50,000 or 100,000 rows in total, this is probably f
 may be by far your most efficient option in this package.
 
 ## Example:
-from resamples import par_mc_samples
-import pandas as pd
-import matplotlib.pyplot as plt
-a = pd.DataFrame([[1,2],[3,4],[5,6],[7,8],[9,0]])
-a.columns = ['a','b']
-a_sample_mean = a['a'].mean()
-res_a_par = par_mc_samples(a,10,1000,replace = True)
-a_means = res_a_par['a'].mean().compute()
-res_a_par['a'].mean().compute().plot.density()
-a_std_error = res_a_par['a'].mean().std().compute()
-a_sample_dist_mean = res_a_par['a'].mean().mean().compute()
-plt.axvline(a_sample_mean,color = 'b')
-plt.axvline(a_sample_dist_mean + a_std_error,color='y')
-plt.axvline(a_sample_dist_mean - a_std_error,color='y')
-plt.axvline(a_sample_dist_mean + 2 * a_std_error,color='r')
-plt.axvline(a_sample_dist_mean - 2 * a_std_error,color='r')
+from resamples import par_mc_samples &nbsp;
+import pandas as pd &nbsp;
+import matplotlib.pyplot as plt &nbsp;
+a = pd.DataFrame([[1,2],[3,4],[5,6],[7,8],[9,0]]) &nbsp;
+a.columns = ['a','b'] &nbsp;
+a_sample_mean = a['a'].mean() &nbsp;
+res_a_par = par_mc_samples(a,10,1000,replace = True) &nbsp;
+a_means = res_a_par['a'].mean().compute() &nbsp;
+res_a_par['a'].mean().compute().plot.density() &nbsp;
+a_std_error = res_a_par['a'].mean().std().compute() &nbsp;
+a_sample_dist_mean = res_a_par['a'].mean().mean().compute() &nbsp;
+plt.axvline(a_sample_mean,color = 'b') &nbsp;
+plt.axvline(a_sample_dist_mean + a_std_error,color='y') &nbsp;
+plt.axvline(a_sample_dist_mean - a_std_error,color='y') &nbsp;
+plt.axvline(a_sample_dist_mean + 2 * a_std_error,color='r') &nbsp;
+plt.axvline(a_sample_dist_mean - 2 * a_std_error,color='r') &nbsp;
 plt.show()
