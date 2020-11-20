@@ -58,20 +58,29 @@ you are creating more around 50,000 or 100,000 rows in total, this is probably f
 may be by far your most efficient option in this package.
 
 ## Example:
-from resamples import par_mc_samples   
-import pandas as pd   
-import matplotlib.pyplot as plt   
-a = pd.DataFrame([[1,2],[3,4],[5,6],[7,8],[9,0]])   
-a.columns = ['a','b']   
-a_sample_mean = a['a'].mean()   
-res_a_par = par_mc_samples(a,10,1000,replace = True)   
-a_means = res_a_par['a'].mean().compute()   
-res_a_par['a'].mean().compute().plot.density()   
-a_std_error = res_a_par['a'].mean().std().compute()   
-a_sample_dist_mean = res_a_par['a'].mean().mean().compute()   
-plt.axvline(a_sample_mean,color = 'b')   
-plt.axvline(a_sample_dist_mean + a_std_error,color='y')   
-plt.axvline(a_sample_dist_mean - a_std_error,color='y')   
-plt.axvline(a_sample_dist_mean + 2 * a_std_error,color='r')   
-plt.axvline(a_sample_dist_mean - 2 * a_std_error,color='r')   
-plt.show()
+from resamples import par_mc_samples  
+import pandas as pd  
+import matplotlib.pyplot as plt  
+df = pd.DataFrame([[1,2],[3,2],[5,6],[7,7],[9,0]])  
+df.columns = ['a','b']  
+
+original_sample_means = df.mean()  
+resampled_df = par_mc_samples(df,100,2500,replace = True)  
+resampled_means_for_each_rep = resampled_df.mean().compute()  
+sample_distribution_means = resampled_df.mean().mean().compute()  
+std_errors = resampled_df.mean().std().compute()  
+resampled_df['a'].mean().compute().plot.density(color='fuchsia')  
+resampled_df['b'].mean().compute().plot.density(color = 'aqua')  
+
+plt.axvline(original_sample_means['a'],color = 'fuchsia')  
+#plt.axvline(sample_distribution_means['a'] + std_errors['a'],color='y')  
+#plt.axvline(sample_distribution_means['a'] - std_errors['a'],color='y')  
+plt.axvline(sample_distribution_means['a'] + 2 * std_errors['a'],color='r')  
+plt.axvline(sample_distribution_means['a'] - 2 * std_errors['a'],color='r')  
+
+plt.axvline(original_sample_means['b'],color = 'aqua')  
+#plt.axvline(sample_distribution_means['b'] + std_errors['b'],color='y')  
+#plt.axvline(sample_distribution_means['b'] - std_errors['b'],color='y')  
+plt.axvline(sample_distribution_means['b'] + 2 * std_errors['b'],color='r')  
+plt.axvline(sample_distribution_means['b'] - 2 * std_errors['b'],color='r')    
+plt.show()  
